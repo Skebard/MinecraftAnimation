@@ -12,8 +12,9 @@ class Person{
         this.leftArm = new Limb(4*size,4*size,12*size,'left');
         this.rightLeg = new Limb(4*size,4*size,12*size,'right');
         this.leftLeg = new Limb(4*size,4*size,12*size,'left');
-        this.head = new Head(8*size)
+        this.head = new Head(8*size,4*size);
         this.torso = new Torso(8*size,4*size,12*size);
+        this.stepDistance = 12*size;
         this.assemble();
         this.movements = [];
         this.movingQue = [];
@@ -22,9 +23,9 @@ class Person{
 
     assemble(){
         this.scene = document.createElement('div');
-        this.scene.style = "transform-style: preserve-3d; transform: translateZ(-"+parseInt(this.size*8/2)+"px);";
+        this.scene.style = "transform-style: preserve-3d; perspective:10000px";
         this.body = document.createElement('div');
-        this.body.style = "position: relative; transform-style: preserve-3d;";
+        this.body.style = "position: relative; transform-style: preserve-3d;transform: translateZ(-"+parseInt(this.size*8/2)+"px);";
         this.upperBody = document.createElement('div');
         this.upperBody.classList.add('upper-body');
         let container = document.createElement('div');
@@ -35,46 +36,80 @@ class Person{
         this.lowerBody.classList.add('lower-body');
         this.lowerBody.append(this.rightLeg.scene, this.leftLeg.scene);
         this.body.append(this.upperBody,this.lowerBody);
+        this.bodyObj = new Move(this.body);
         this.scene.append(this.body);
     }
 
-    walk(speed=1){
+    walk(speed=1,distance,time=null){
+        //calculate distance that moves for each step
+        let stepsNum = parseInt(distance/this.stepDistance);
+        let stepSpeed = 500*speed;
+        if(time){
+                stepSpeed = time/stepsNum;
+        }else{
+            time = stepSpeed*stepsNum;
+        }
+        console.log(stepSpeed);
+        console.log(stepsNum);
+
+        this.translateBody(distance,time*2+(stepSpeed*2));
         //move arms and legs
         //right leg with left arm and vice versa
-        this.move1('leftLeg','moveForward',500,70,1);
-        this.move1('rightArm','moveForward',500,70,3);
-        this.move1('rightLeg','moveBackwards',500,70,2);
-        this.move1('leftArm','moveBackwards',500,70,4);
-        for(let i=0;i<5;i++){
-            this.move1('rightLeg','moveForward',500,140,1);
-            this.move1('leftArm','moveForward',500,140,4);
-            this.move1('leftLeg','moveBackwards',500,140,2);
-            this.move1('rightArm','moveBackwards',500,140,3);
+        this.move1('leftLeg','moveForward',stepSpeed,70,1);
+        this.move1('rightArm','moveForward',stepSpeed,70,3);
+        this.move1('rightLeg','moveBackwards',stepSpeed,70,2);
+        this.move1('leftArm','moveBackwards',stepSpeed,70,4);
+        for(let i=0;i<stepsNum;i++){
+            this.move1('rightLeg','moveForward',stepSpeed,140,1);
+            this.move1('leftArm','moveForward',stepSpeed,140,4);
+            this.move1('leftLeg','moveBackwards',stepSpeed,140,2);
+            this.move1('rightArm','moveBackwards',stepSpeed,140,3);
 
-            this.move1('leftLeg','moveForward',500,140,1);
-            this.move1('rightArm','moveForward',500,140,3);
-            this.move1('rightLeg','moveBackwards',500,140,2);
-            this.move1('leftArm','moveBackwards',500,140,4);
+            this.move1('leftLeg','moveForward',stepSpeed,140,1);
+            this.move1('rightArm','moveForward',stepSpeed,140,3);
+            this.move1('rightLeg','moveBackwards',stepSpeed,140,2);
+            this.move1('leftArm','moveBackwards',stepSpeed,140,4);
         }
-        this.move1('rightLeg','moveForward',500,70,1);
-        this.move1('leftArm','moveForward',500,70,4);
-        this.move1('leftLeg','moveBackwards',500,70,2);
-        this.move1('rightArm','moveBackwards',500,70,3);
+        this.move1('rightLeg','moveForward',stepSpeed,70,1);
+        this.move1('leftArm','moveForward',stepSpeed,70,4);
+        this.move1('leftLeg','moveBackwards',stepSpeed,70,2);
+        this.move1('rightArm','moveBackwards',stepSpeed,70,3);
 
 
 
     }
 
+    translateBody(pos,time){
+        let periods = time/5;
+        let step = pos/periods;
+
+        let move = setInterval(()=>{
+            periods--
+            this.bodyObj.translateXYZ(0,0,step);
+            if(periods<=0){
+                console.log('STOP');
+                clearInterval(move);
+            }
+
+        },5);
+    }
     jump(){
 
     }
+    turnRight(deg){
+        this.bodyObj.rotateY(deg);
+    }
 
-    turnHead(deg,ms){
+    turnLeft(){
+
+    }
+
+    turnHead(deg,ms=1000){
         this.move1('head','rotateY',ms,deg,1);
     }
 
     lookUp(deg,ms){
-        this.move1('head','rotateX',ms,deg,1);
+        this.move1('head','rotateX',ms,-deg,1);
 
     }
     lookDown(deg,ms){
@@ -85,13 +120,13 @@ class Person{
             arm = 'leftArm';
         }
         console.log(arm);
-        this.move(arm,'moveForward',1000*speed,170);
-        this.move(arm,'raise',500*speed,50);
+        this.move(arm,'moveForward',500*speed,170);
+        this.move(arm,'raise',250*speed,50);
         this.move(arm,'descend',500*speed,100);
         this.move(arm,'raise',500*speed,100);
         this.move(arm,'descend',500*speed,100);
         this.move(arm,'raise',500*speed,100);
-        this.move(arm,'descend',500*speed,50);
+        this.move(arm,'descend',250*speed,50);
         this.move(arm,'moveBackwards',500*speed,170);
 
     }

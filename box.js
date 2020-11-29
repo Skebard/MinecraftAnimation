@@ -15,7 +15,7 @@ class Box extends Move{
         this.xCenter = parseInt(this.length/2);
         this.yCenter = parseInt(this.height/2);
         this.zCenter = parseInt(this.width/2);
-        this.scene = this.createScene();
+        this.scene = this.createScene(1000);
         this.scene.appendChild(this.createBox(transformOrigin,translateZ));
         this.obj = this.box;
 
@@ -24,11 +24,11 @@ class Box extends Move{
     createBox(transformOrigin,translateZ){
         let box = document.createElement('div');
         let style = "height:"+this.height+"px; width:"+this.length+"px;   position: relative; transform-style: preserve-3d; transform-origin:"+transformOrigin+";";
-        if(translateZ){
+        if(translateZ===true){
             style +="transform: translateZ("+parseInt(-this.width/2)+ "px);";
         }else{
             //style +="transform: translateZ( 1px);";
-            style +="transform: translateZ(1px);";
+            style +="transform: translateZ("+parseInt(-translateZ/2)+"px);";
         }
         box.style  = style;
         //box.style += "transform-origin:"+transformOrigin+";";
@@ -100,9 +100,9 @@ class Box extends Move{
     // perspective: 0;
     // transform-style: preserve-3d;
     // transform: translateZ(-150px);
-    createScene(){
+    createScene(perspective){
         let scene = document.createElement('div');
-        scene.style = "width:"+this.length+"px;height:"+this.height+"px;perspective:400px;transform-style: preserve-3d;";
+        scene.style = "width:"+this.length+"px;height:"+this.height+"px;perspective:"+perspective+"px;transform-style: preserve-3d;";
         return scene;
     }
 }

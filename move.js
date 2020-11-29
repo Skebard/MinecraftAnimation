@@ -37,6 +37,21 @@ class Move{
         ];
         this.obj.style.transform = "matrix3d(" + this.getRotatedMatrix(rotationMatrix) + ")";
     }
+
+
+    translateXYZ(pixX = 0, pixY = 0, pixZ = 0) {
+        let translationMatrix = [
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [pixX, pixY, pixZ, 1]
+        ];
+        let currentMatrix = getCurrentMatrix3D(this.obj);
+        let translatedMatrix = multiplyMatrices(translationMatrix,currentMatrix);
+        this.currentMatrix = translatedMatrix;
+        this.obj.style.transform = "matrix3d(" + translatedMatrix.join() + ")";
+    }
+    
     getRotatedMatrix(rotationMatrix){
         let currentMatrix = (this.currentMatrix)?this.currentMatrix: getCurrentMatrix3D(this.obj);
         let rotatedMatrix = multiplyMatrices(currentMatrix, rotationMatrix);
@@ -46,54 +61,6 @@ class Move{
     }
 }
 
-
-function rotateY(obj, degrees) {
-    let [cosine, sine] = calculateCosSin(degrees);
-    let rotationMatrix = [
-        [cosine, 0, sine, 0],
-        [0, 1, 0, 0],
-        [-sine, 0, cosine, 0],
-        [0, 0, 0, 1]
-    ];
-    let currentMatrix = getCurrentMatrix3D(obj);
-    let rotatedMatrix = multiplyMatrices(currentMatrix, rotationMatrix);
-    rotatedMatrix[3] = currentMatrix[3]; // to avoid changing the position(translation)
-    obj.style.transform = "matrix3d(" + rotatedMatrix.join() + ")";
-    // make sure that the transition is finished before next rotation;
-    return rotatedMatrix;
-}
-
-function rotateX(obj, degrees) {
-    let [cosine, sine] = calculateCosSin(degrees);
-    let rotationMatrix = [
-        [1, 0, 0, 0],
-        [0, cosine, -sine, 0],
-        [0, sine, cosine, 0],
-        [0, 0, 0, 1]
-    ];
-    let currentMatrix = getCurrentMatrix3D(obj);
-    let rotatedMatrix = multiplyMatrices(currentMatrix, rotationMatrix);
-    rotatedMatrix[3] = currentMatrix[3]; // to avoid changing the position(translation)
-    obj.style.transform = "matrix3d(" + rotatedMatrix.join() + ")";
-    // make sure that the transition is finished before next rotation;
-    return rotatedMatrix;
-}
-
-function rotateZ(obj, degrees) {
-    let [cosine, sine] = calculateCosSin(degrees);
-    let rotationMatrix = [
-        [cosine, -sine, 0, 0],
-        [sine, cosine, 0, 0],
-        [0, 0, 1, 0],
-        [0, 0, 0, 1]
-    ];
-    let currentMatrix = getCurrentMatrix3D(obj);
-    let rotatedMatrix = multiplyMatrices(currentMatrix, rotationMatrix);
-    rotatedMatrix[3] = currentMatrix[3]; // to avoid changing the position(translation)
-    obj.style.transform = "matrix3d(" + rotatedMatrix.join() + ")";
-    // make sure that the transition is finished before next rotation;
-    return rotatedMatrix;
-}
 
 //Returns the homogeneous matrix 4X4 of the entered 3D object
 // obj (mandatory): elementHTML
