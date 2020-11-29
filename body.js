@@ -7,6 +7,7 @@ class Person{
 
     constructor(size=15){
         //assembler body
+        this.size = size;
         this.rightArm = new Limb(4*size,4*size,12*size,'right');
         this.leftArm = new Limb(4*size,4*size,12*size,'left');
         this.rightLeg = new Limb(4*size,4*size,12*size,'right');
@@ -20,8 +21,10 @@ class Person{
     }
 
     assemble(){
+        this.scene = document.createElement('div');
+        this.scene.style = "transform-style: preserve-3d; transform: translateZ(-"+parseInt(this.size*8/2)+"px);";
         this.body = document.createElement('div');
-        this.body
+        this.body.style = "position: relative; transform-style: preserve-3d;";
         this.upperBody = document.createElement('div');
         this.upperBody.classList.add('upper-body');
         let container = document.createElement('div');
@@ -32,6 +35,7 @@ class Person{
         this.lowerBody.classList.add('lower-body');
         this.lowerBody.append(this.rightLeg.scene, this.leftLeg.scene);
         this.body.append(this.upperBody,this.lowerBody);
+        this.scene.append(this.body);
     }
 
     walk(speed=1){
@@ -65,8 +69,16 @@ class Person{
 
     }
 
-    turnHead(){
+    turnHead(deg,ms){
+        this.move1('head','rotateY',ms,deg,1);
+    }
 
+    lookUp(deg,ms){
+        this.move1('head','rotateX',ms,deg,1);
+
+    }
+    lookDown(deg,ms){
+        this.move1('head','rotateX',ms,deg,1);
     }
     wave(arm='leftArm',speed=1){
         if(arm!=='leftArm' && arm!=='rightArm'){
@@ -118,20 +130,20 @@ class Person{
             return false;
         }
         this.movingQue[que] = true;
-        let periods = time/2;
+        let periods = time/5;
         let deg =finalPos/periods;
         let move = setInterval(()=>{
             this[bodyPart][action](deg)
             periods--;
-            if(periods==0){
+            if(periods<=0){
                 clearInterval(move);
                 this.movingQue[que] = false;
-                if(this.movementsQue[que].length>0){
+                if(this.movementsQue[que] && this.movementsQue[que].length>0){
                     let data = this.movementsQue[que].shift();
                     this.move1(...data);
                 }
             }
-        },2);
+        },5);
     }
 
 

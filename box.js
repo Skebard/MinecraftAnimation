@@ -7,7 +7,7 @@ class Box extends Move{
      * @param {int} width - Pixels
      * @param {int} height - Pixels
      */
-    constructor(length,width,height,transformOrigin='center'){
+    constructor(length,width,height,transformOrigin='center',translateZ=true){
         super();
         this.length = length;
         this.width = width;
@@ -16,14 +16,21 @@ class Box extends Move{
         this.yCenter = parseInt(this.height/2);
         this.zCenter = parseInt(this.width/2);
         this.scene = this.createScene();
-        this.scene.appendChild(this.createBox(transformOrigin));
+        this.scene.appendChild(this.createBox(transformOrigin,translateZ));
         this.obj = this.box;
 
     }
 
-    createBox(transformOrigin){
+    createBox(transformOrigin,translateZ){
         let box = document.createElement('div');
-        box.style = "height:"+this.height+"px; width:"+this.length+"px; transform: translateZ("+parseInt(-this.width/2)+ "px);  position: relative; transform-style: preserve-3d; transform-origin:"+transformOrigin+";";
+        let style = "height:"+this.height+"px; width:"+this.length+"px;   position: relative; transform-style: preserve-3d; transform-origin:"+transformOrigin+";";
+        if(translateZ){
+            style +="transform: translateZ("+parseInt(-this.width/2)+ "px);";
+        }else{
+            //style +="transform: translateZ( 1px);";
+            style +="transform: translateZ(1px);";
+        }
+        box.style  = style;
         //box.style += "transform-origin:"+transformOrigin+";";
         box.append(this.createFront(),this.createBack(),this.createLeft(),this.createRight(),this.createTop(),this.createBottom());
         this.box = box;
@@ -95,7 +102,7 @@ class Box extends Move{
     // transform: translateZ(-150px);
     createScene(){
         let scene = document.createElement('div');
-        scene.style = "width:"+this.length+"px;height:"+this.height+"px;perspective:400px;transform-style: preserve-3d;transform: translateZ(-"+parseInt(this.width/2)+"px);";
+        scene.style = "width:"+this.length+"px;height:"+this.height+"px;perspective:400px;transform-style: preserve-3d;";
         return scene;
     }
 }
