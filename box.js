@@ -1,14 +1,25 @@
 class Box extends Move{
 
-    
+    /*bgImages
+    0-left
+    1-top
+    2-bottom
+    3-front
+    4-right
+    5-back
+
+    */
+
+
     /**
      * 
      * @param {int} length -Pixels
      * @param {int} width - Pixels
      * @param {int} height - Pixels
      */
-    constructor(length,width,height,transformOrigin='center',translateZ=true){
+    constructor(length,width,height,bgImages,transformOrigin='center',translateZ=true){
         super();
+        this.bgImages =bgImages;
         this.length = length;
         this.width = width;
         this.height = height;
@@ -40,7 +51,8 @@ class Box extends Move{
         let styles = 'transform: rotateY(  0deg) translateZ( '+ parseInt(this.width/2)+'px);';
         styles += "width:"+this.length+"px;height:"+this.height+"px;";
         styles += 'background: hsla(  0, 100%, 50%, 0.7);';
-  
+        styles += "background-image:url("+this.bgImages[3]+");";
+        styles += " background-size:cover ; background-repeat:no-repeat;";
         let face = this.createFace(styles);
         return face;
     }
@@ -48,6 +60,8 @@ class Box extends Move{
         let styles = 'transform: rotateY(  180deg) translateZ( '+ parseInt(this.width/2)+'px);'
         styles += "width:"+this.length+"px;height:"+this.height+"px;";
         styles += 'background: hsla(120, 100%, 50%, 0.7);';
+        styles += "background-image:url("+this.bgImages[5]+");";
+        styles += " background-size:cover ; background-repeat:no-repeat;";
         let face = this.createFace(styles);
         return face;
     }
@@ -55,7 +69,9 @@ class Box extends Move{
         let styles = 'transform: rotateY(  -90deg) translateZ( '+ parseInt(this.length/2)+'px);'
         styles += "width:"+this.width+"px;height:"+this.height+"px;";
         styles += 'background: hsla(180, 100%, 50%, 0.7);';
-        styles +='left:'+(this.length-this.width)/2+'px'; //center the face
+        styles +='left:'+(this.length-this.width)/2+'px;'; //center the face
+        styles += "background-image:url("+this.bgImages[0]+");";
+        styles += " background-size:cover ; background-repeat:no-repeat;";
         let face = this.createFace(styles);
         return face;
 
@@ -64,7 +80,10 @@ class Box extends Move{
         let styles = 'transform: rotateY(  90deg) translateZ( '+ parseInt(this.length/2)+'px);'
         styles += "width:"+this.width+"px;height:"+this.height+"px;";
         styles += 'background: hsla( 60, 100%, 50%, 0.7);';
-        styles +='left:'+(this.length-this.width)/2+'px';
+        styles +='left:'+(this.length-this.width)/2+'px;';
+        styles += "background-image:url("+this.bgImages[4]+");";
+        styles += " background-size:cover ; background-repeat:no-repeat;";
+
         let face = this.createFace(styles);
         return face;
 
@@ -73,7 +92,9 @@ class Box extends Move{
         let styles = 'transform: rotateX(  90deg) translateZ( '+ parseInt(this.height/2)+'px);'
         styles += "width:"+this.length+"px;height:"+this.width+"px;";
         styles += 'background: hsla(240, 100%, 50%, 0.7);';
-        styles +='top:'+(this.height-this.width)/2+'px';//center the face
+        styles +='top:'+(this.height-this.width)/2+'px; ';//center the face
+        styles += "background-image:url("+this.bgImages[1]+");";
+        styles += " background-size:cover ; background-repeat:no-repeat;";
         let face = this.createFace(styles);
         return face;
 
@@ -82,7 +103,9 @@ class Box extends Move{
         let styles = 'transform: rotateX(  -90deg) translateZ( '+ parseInt(this.height/2)+'px);'
         styles += "width:"+this.length+"px;height:"+this.width+"px;";
         styles += 'background: hsla(300, 100%, 50%, 0.7);';
-        styles +='top:'+(this.height-this.width)/2+'px';
+        styles +='top:'+(this.height-this.width)/2+'px;';
+        styles += "background-image:url("+this.bgImages[2]+");";
+        styles += " background-size:cover ; background-repeat:no-repeat;";
         let face = this.createFace(styles);
         return face;
     }

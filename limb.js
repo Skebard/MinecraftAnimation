@@ -1,6 +1,6 @@
 class Limb extends Box{
-    constructor(length,width,height,position='left'){
-        super(length,width,height,'top');
+    constructor(length,width,height,bgImages,position='left'){
+        super(length,width,height,bgImages,'top');
         if(position==='left'){
             this.pos = 1;
         }else if(position==='right'){

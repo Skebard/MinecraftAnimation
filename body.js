@@ -7,13 +7,67 @@ class Person{
 
     constructor(size=15){
         //assembler body
+        
+    /*bgImages
+    0-left
+    1-top
+    2-bottom
+    3-front
+    4-right
+    5-back
+
+    */
+   let headImages =[
+    'assets/images/rightLateralHead.jpg',
+       'assets/images/backHead.jpg',
+       'assets/images/bottomHead.jpg',
+       'assets/images/frontHead.jpg',
+       'assets/images/lateralHead.jpg',
+       'assets/images/backHead.jpg'
+   ]
+
+   let torsoImages = [
+    'assets/images/shirt.jpg',
+    'assets/images/shirt.jpg',
+    'assets/images/shirt.jpg',
+    'assets/images/shirt.jpg',
+    'assets/images/shirt.jpg',
+    'assets/images/shirt.jpg'
+   ]
+
+   let armsImages = [
+    'assets/images/arms.jpg',
+    'assets/images/arms.jpg',
+    'assets/images/armBottom.jpg',
+    'assets/images/arms.jpg',
+    'assets/images/arms.jpg',
+    'assets/images/arms.jpg'
+   ]
+   let legsImages = [
+    'assets/images/legOutSide.jpg',
+    'assets/images/legs.jpg',
+    'assets/images/legBottom.jpg',
+    'assets/images/legs.jpg',
+    'assets/images/legsIn.jpg',
+    'assets/images/leftLeg.jpg'
+
+   ]
+
+   let leftLegImages = [
+    'assets/images/legsIn.jpg',
+    'assets/images/leftLeg.jpg',
+    'assets/images/legBottom.jpg',
+    'assets/images/leftLeg.jpg',
+    'assets/images/legOutSide.jpg',
+    'assets/images/legs.jpg'
+   ]
         this.size = size;
-        this.rightArm = new Limb(4*size,4*size,12*size,'right');
-        this.leftArm = new Limb(4*size,4*size,12*size,'left');
-        this.rightLeg = new Limb(4*size,4*size,12*size,'right');
-        this.leftLeg = new Limb(4*size,4*size,12*size,'left');
-        this.head = new Head(8*size,4*size);
-        this.torso = new Torso(8*size,4*size,12*size);
+        this.rightArm = new Limb(4*size,4*size,12*size,armsImages,'right');
+        this.leftArm = new Limb(4*size,4*size,12*size,armsImages,'left');
+        this.rightLeg = new Limb(4*size,4*size,12*size,legsImages,'right');
+        this.leftLeg = new Limb(4*size,4*size,12*size,leftLegImages,'left');
+        this.head = new Head(8*size,headImages,4*size);
+        this.torso = new Torso(8*size,4*size,12*size,torsoImages);
         this.stepDistance = 12*size;
         this.assemble();
         this.movements = [];

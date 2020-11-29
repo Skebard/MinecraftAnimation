@@ -1,8 +1,8 @@
 class Head extends Box{
 
-    constructor(size,bodyWidth=null){
+    constructor(size,bgImages,bodyWidth=null){
         bodyWidth = (bodyWidth)?bodyWidth:2;
-        super(size,size,size,'center',bodyWidth);
+        super(size,size,size,bgImages,'center',bodyWidth);
     }
 
 }
