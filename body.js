@@ -73,11 +73,15 @@ class Person{
         this.movements = [];
         this.movingQue = [];
         this.movementsQue = [];
+        this.walking = false;
+        this.stepSpeed = 500;
+        this.walkingForward = false;
+        this.walkingBackward = false;
     }
 
     assemble(){
         this.scene = document.createElement('div');
-        this.scene.style = "transform-style: preserve-3d; perspective:10000px";
+        this.scene.style = "transform-style: preserve-3d; perspective:100000px";
         this.body = document.createElement('div');
         this.body.style = "position: relative; transform-style: preserve-3d;transform: translateZ(-"+parseInt(this.size*8/2)+"px);";
         this.upperBody = document.createElement('div');
@@ -129,8 +133,33 @@ class Person{
         this.move1('leftLeg','moveBackwards',stepSpeed,70,2);
         this.move1('rightArm','moveBackwards',stepSpeed,70,3);
 
+    }
 
+    startWalk(){
+        this.move1('leftLeg','moveForward',this.stepSpeed,70,1);
+        this.move1('rightArm','moveForward',this.stepSpeed,70,3);
+        this.move1('rightLeg','moveBackwards',this.stepSpeed,70,2);
+        this.move1('leftArm','moveBackwards',this.stepSpeed,70,4);
+    }
+    endWalk(){
+        this.move1('rightLeg','moveForward',this.stepSpeed,70,1);
+        this.move1('leftArm','moveForward',this.stepSpeed,70,4);
+        this.move1('leftLeg','moveBackwards',this.stepSpeed,70,2);
+        this.move1('rightArm','moveBackwards',this.stepSpeed,70,3);
 
+    }
+    fullStep(){
+        this.translateBody(this.stepDistance,this.stepSpeed*4)
+        this.move1('rightLeg','moveForward',this.stepSpeed,140,1);
+        this.move1('leftArm','moveForward',this.stepSpeed,140,4);
+        this.move1('leftLeg','moveBackwards',this.stepSpeed,140,2);
+        this.move1('rightArm','moveBackwards',this.stepSpeed,140,3);
+
+        this.move1('leftLeg','moveForward',this.stepSpeed,140,1);
+        this.move1('rightArm','moveForward',this.stepSpeed,140,3);
+        this.move1('rightLeg','moveBackwards',this.stepSpeed,140,2);
+        this.move1('leftArm','moveBackwards',this.stepSpeed,140,4);
+        setTimeout(()=>this.walkingForward=false,this.stepSpeed*2);
     }
 
     translateBody(pos,time){
@@ -236,8 +265,28 @@ class Person{
     }
 
 
-}
+    walkForward(){
+        if(!this.walkingForward){
+            if(!this.walkStarted){
+                this.startWalk();
+                this.walkStarted = true;
+                this.translateBody(this.stepDistance/2,this.stepSpeed)
+            }
+            this.walkingForward = true;
+            this.fullStep();
+            
+        }
+        
+    }
+    stopWalking(){
 
-/*let body = new Person(20)
-document.querySelector('body').append(body.body)
-*/
+        setTimeout(()=>{
+            this.endWalk();
+            this.walkStarted = false;
+        },100);
+    }
+    walkBackward(){
+
+    }
+
+}

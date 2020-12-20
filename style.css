@@ -1,5 +1,20 @@
 
 
+.settings{
+  position:fixed;
+  left:0;
+  top:0;
+  background-color:rgb(49, 53, 47);
+  display:flex;
+  width:100%;
+  align-items:center;
+  color:white;
+  padding:1rem;
+  z-index:9999;
+}
+.settings input{
+  margin:1rem;
+}
 .row{
     display:flex;
 }
@@ -19,8 +34,12 @@ body { font-family: sans-serif;
 display:flex;
 justify-content:center;
 margin-top:5rem;
-}
 
+}
+.moving-area{
+  perspective: 10000px;
+  perspective-origin: center;
+}
 .scene2 {
   width: 300px;
   height: 200px;

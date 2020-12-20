@@ -7,26 +7,29 @@
     <script src='head.js'></script>
     <script src='torso.js'></script>
     
-    <script src='body.js'></script>
+    <script src='body.js'></script>\
+
+    <script defer src='main.js'></script>
+
     <link rel='stylesheet' href='style.css'>
 
 </head>
 
 <body>
-    <!-- <div class="scene2">
-        <div class="scene">
-            <div class="box">
-                <div class="box__face box__face--front">front</div>
-                <div class="box__face box__face--back">back</div>
-                <div class="box__face box__face--right">right</div>
-                <div class="box__face box__face--left">left</div>
-                <div class="box__face box__face--top">top</div>
-                <div class="box__face box__face--bottom">bottom</div>
-            </div>
-        </div>
-    </div>
- -->
+    <form action="" id='settings-id' class='settings'>
+        <label>
+            Use arrows Left, Up and Right to move the character
+        </label>
+        <label>
+            <b>Speed:</b>
+        </label>
+        <input id='speed-id' type="number" value=50>
+        <input type='submit'>
+    </form>
 
+    <div class='moving-area'>
+
+    </div>
 
 </body>
 

@@ -1,4 +1,4 @@
-class Box extends Move{
+ class Box extends Move{
 
     /*bgImages
     0-left
@@ -26,7 +26,7 @@ class Box extends Move{
         this.xCenter = parseInt(this.length/2);
         this.yCenter = parseInt(this.height/2);
         this.zCenter = parseInt(this.width/2);
-        this.scene = this.createScene(1000);
+        this.scene = this.createScene(10000);
         this.scene.appendChild(this.createBox(transformOrigin,translateZ));
         this.obj = this.box;
 
